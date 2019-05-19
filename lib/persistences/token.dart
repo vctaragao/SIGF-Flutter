@@ -1,5 +1,4 @@
-import '../model/login_token.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+part of persistences;
 
 Future<void> saveCurrentToken(Map responseJson) async {
   SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -22,14 +21,17 @@ Future<void> saveCurrentToken(Map responseJson) async {
       (expiresIn != null && expiresIn >= 0) ? expiresIn : null);
 }
 
-Future<LoginTokenModel> getToken() async {
+Future<Map<String, dynamic>> getToken() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String token = prefs.getString('LastToken');
   String tokenType = prefs.getString('LastTokenType');
   int expiresIn = prefs.getInt('LastTokenExpiresIn');
 
-  LoginTokenModel currenToken =
-      LoginTokenModel(token: token, tokenType: tokenType, expiresIn: expiresIn);
+  Map<String, dynamic> currenToken = {
+    "token": token,
+    "tokenType": tokenType,
+    "expiresIn": expiresIn,
+  };
 
   return currenToken;
 }

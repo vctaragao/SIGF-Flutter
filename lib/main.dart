@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'login/login_view.dart';
+import 'package:sigf_flutter_app/views/views.dart';
 
 main(List<String> args) => runApp(MyApp());
 
