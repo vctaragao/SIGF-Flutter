@@ -6,3 +6,4 @@ import 'package:sigf_flutter_app/controllers/controllers.dart';
 
 part 'login/login_view.dart';
 part 'login/login_form.dart';
+part 'profile/profile_view.dart';

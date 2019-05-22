@@ -2,7 +2,7 @@ part of controllers;
 
 abstract class GetInfoController {
   static Future<Student> getStudent({LoginTokenModel token}) async {
-    return await http.get('http://192.168.1.4/api/user', headers: {
+    return await http.get('http://192.168.1.2/api/user', headers: {
       "Authorization": "${token.tokenType} ${token.token}",
       "Accept": "application/json"
     }).then((http.Response response) {

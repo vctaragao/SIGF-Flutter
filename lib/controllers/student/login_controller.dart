@@ -2,7 +2,7 @@ part of controllers;
 
 abstract class LoginController {
   static Future<LoginTokenModel> login({username, password}) async {
-    return await http.post('http://192.168.1.4:80/api/login', headers: {
+    return await http.post('http://192.168.1.2/api/login', headers: {
       "Accept": "application/json"
     }, body: {
       "username": username,
@@ -14,8 +14,6 @@ abstract class LoginController {
       }
       saveCurrentToken(json.decode(response.body));
       var token = await getToken();
-      print("After getToken()");
-      print(token['tokenType']);
       LoginTokenModel tokenModel = LoginTokenModel(
         token: token['token'],
         tokenType: token['tokenType'],

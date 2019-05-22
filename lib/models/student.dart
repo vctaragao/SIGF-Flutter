@@ -34,4 +34,8 @@ class Student {
     print(
         "id: $id Name: $name Sex: $sex Course: $course Colar: $colar Birthday: $birthday  Email: $email CPF: $cpf Phone: $phone IsDirector: $isDirector isProfessor: $isProfessor isStudent: $isStudent");
   }
+
+  List<dynamic> toList() {
+    return [sex, course, colar, birthday, name, email, cpf, phone, profile];
+  }
 }

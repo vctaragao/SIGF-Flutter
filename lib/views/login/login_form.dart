@@ -66,7 +66,10 @@ class _LoginButton extends StatelessWidget {
             username: _LoginFormState.emailController.text,
             password: _LoginFormState.passwordController.text);
         var student = await GetInfoController.getStudent(token: token);
-        student.show();
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ProfilePage(student: student)));
         return student;
       },
       color: Colors.teal,
