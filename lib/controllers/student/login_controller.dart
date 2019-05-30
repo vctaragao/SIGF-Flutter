@@ -2,12 +2,14 @@ part of controllers;
 
 abstract class LoginController {
   static Future<LoginTokenModel> login({username, password}) async {
-    return await http.post('http://192.168.1.2/api/login', headers: {
-      "Accept": "application/json"
-    }, body: {
-      "username": username,
-      "password": password
-    }).then((http.Response response) async {
+    return await http.post(LaravelAPI.url + LaravelAPI.apiRoutes['login'],
+        headers: {
+          "Accept": "application/json"
+        },
+        body: {
+          "username": username,
+          "password": password
+        }).then((http.Response response) async {
       final int statusCode = response.statusCode;
       if (statusCode < 200 || statusCode > 400) {
         throw new Exception("Error while fetching data $statusCode");

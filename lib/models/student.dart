@@ -11,9 +11,9 @@ class Student {
   String cpf;
   String phone;
   String profile;
-  int isDirector;
-  int isProfessor;
-  int isStudent;
+  int director;
+  int professor;
+  int student;
 
   Student(
       {this.id,
@@ -26,16 +26,32 @@ class Student {
       this.phone,
       this.sex,
       this.profile,
-      this.isDirector,
-      this.isProfessor,
-      this.isStudent});
+      this.director,
+      this.professor,
+      this.student});
 
   void show() {
     print(
-        "id: $id Name: $name Sex: $sex Course: $course Colar: $colar Birthday: $birthday  Email: $email CPF: $cpf Phone: $phone IsDirector: $isDirector isProfessor: $isProfessor isStudent: $isStudent");
+        "id: $id Name: $name Sex: $sex Course: $course Colar: $colar Birthday: $birthday  Email: $email CPF: $cpf Phone: $phone Director: $director Professor: $professor Student: $student");
   }
 
-  List<dynamic> toList() {
-    return [sex, course, colar, birthday, name, email, cpf, phone, profile];
+  Map<String, dynamic> toJson() {
+    return {
+      "sex": sex,
+      "course": course,
+      "colar": colar,
+      "birthday": birthday,
+      "name": name,
+      "email": email,
+      "cpf": cpf,
+      "phone": phone,
+      "profile": profile,
+    };
   }
+
+  int get getId => id;
+
+  bool isDirector() => this.director == 1 ? true : false;
+  bool isProfessor() => this.professor == 1 ? true : false;
+  bool isStudent() => this.student == 1 ? true : false;
 }
