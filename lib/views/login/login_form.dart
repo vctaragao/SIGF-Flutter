@@ -9,18 +9,28 @@ class LoginForm extends StatefulWidget {
 
 class _LoginFormState extends State<LoginForm> {
   static final emailController = TextEditingController();
+
   static final passwordController = TextEditingController();
+
+  final _formKey = GlobalKey<FormState>();
+
   final _emailFormField = InputFields(
     labelText: "Email",
     textInputType: TextInputType.emailAddress,
     textController: emailController,
     helperText: "email@exemplo.com",
+    validator: (value) {
+      return validateEmail(value);
+    },
   );
   final _passwordFormField = InputFields(
     labelText: "Senha",
     textInputType: TextInputType.text,
     obscureText: true,
     textController: passwordController,
+    validator: (value) {
+      return validatePassword(value);
+    },
   );
 
   void dispose() {
@@ -32,6 +42,7 @@ class _LoginFormState extends State<LoginForm> {
   @override
   Widget build(BuildContext context) {
     return Form(
+      key: _formKey,
       child: Theme(
         data: ThemeData(
             primarySwatch: Colors.teal,
@@ -48,7 +59,9 @@ class _LoginFormState extends State<LoginForm> {
               Padding(padding: const EdgeInsets.only(bottom: 20.0)),
               _passwordFormField,
               Padding(padding: const EdgeInsets.only(top: 20.0)),
-              _LoginButton(),
+              _LoginButton(
+                formKey: _formKey,
+              ),
             ],
           ),
         ),
@@ -58,19 +71,40 @@ class _LoginFormState extends State<LoginForm> {
 }
 
 class _LoginButton extends StatelessWidget {
+  GlobalKey<FormState> formKey;
+
+  _LoginButton({this.formKey});
+
   @override
   Widget build(BuildContext context) {
     return MaterialButton(
       onPressed: () async {
-        var token = await LoginController.login(
-            username: _LoginFormState.emailController.text,
-            password: _LoginFormState.passwordController.text);
-        var student = await GetInfoController.getStudent(token: token);
-        print(student.toJson());
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => ProfilePage(student.toJson())));
+        // Remove focus from keyboard after the login button is pressed
+        FocusScope.of(context).requestFocus(new FocusNode());
+
+        if (formKey.currentState.validate()) {
+          Scaffold.of(context).showSnackBar(SnackBar(
+            content: Text('Processando'),
+          ));
+
+          var token = await LoginController.login(
+              username: _LoginFormState.emailController.text,
+              password: _LoginFormState.passwordController.text);
+
+          if (token.errorMessage == null) {
+            var student = await GetInfoController.getStudent(token: token);
+            print(student.toJson());
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ProfilePage(student.toJson())));
+          } else {
+            Scaffold.of(context).showSnackBar(SnackBar(
+              content: Text(token.errorMessage),
+              backgroundColor: Colors.red,
+            ));
+          }
+        }
       },
       color: Colors.teal,
       textColor: Colors.white,

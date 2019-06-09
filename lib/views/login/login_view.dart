@@ -14,9 +14,9 @@ class _LoginPageState extends State<LoginPage>
   void initState() {
     super.initState();
     _logoAnimationController = AnimationController(
-        vsync: this, duration: Duration(milliseconds: 1000));
+        vsync: this, duration: Duration(milliseconds: 2000));
     _logoAnimation = CurvedAnimation(
-        parent: _logoAnimationController, curve: Curves.easeOut);
+        parent: _logoAnimationController, curve: Curves.easeInOut);
     _logoAnimation.addListener(() => this.setState(() {}));
     _logoAnimationController.forward();
   }

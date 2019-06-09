@@ -3,7 +3,7 @@ part of controllers;
 abstract class GetInfoController {
   static Future<Student> getStudent({LoginTokenModel token}) async {
     return await http.get(
-        LaravelAPI.url + '' + LaravelAPI.apiRoutes['getAuthUserInfo'],
+        LaravelAPI.urlApi + '' + LaravelAPI.apiRoutes['getAuthUserInfo'],
         headers: {
           "Authorization": "${token.tokenType} ${token.token}",
           "Accept": "application/json"
