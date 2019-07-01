@@ -9,6 +9,9 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(
+          title: Text("Criar Conta"),
+        ),
         backgroundColor: Colors.white,
         body: Center(
             child: ListView(
@@ -17,8 +20,8 @@ class _RegisterPageState extends State<RegisterPage> {
             RegisterForm(),
             FlatButton(
               textColor: Colors.blue,
-              child: Text("Criar uma conta"),
-              onPressed: () => Navigator.pushNamed(context, '/register'),
+              child: Text("Fazer login"),
+              onPressed: () => Navigator.pushNamed(context, '/login'),
             )
           ],
         )));

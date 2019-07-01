@@ -11,15 +11,51 @@ class _RegisterFormState extends State<RegisterForm> {
   static final nameController = TextEditingController();
   static final emailController = TextEditingController();
   static final passwordController = TextEditingController();
+  static final passwordConfirmController = TextEditingController();
   static final phoneController = TextEditingController();
+  static final cpfController = TextEditingController();
+  static final courseController = TextEditingController();
+  static final profileLinkController = TextEditingController();
+  static final birthdayController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
+
+  final _profileLinkField = InputFields(
+    labelText: "Facebook/Instagram",
+    textInputType: TextInputType.url,
+    textController: profileLinkController,
+    validator: (value) {},
+  );
+
+  final _birthdayField = InputFields(
+    labelText: "Data de nascimento",
+    textInputType: TextInputType.datetime,
+    textController: birthdayController,
+    validator: (value) {},
+    format: "##/##/####",
+  );
 
   final _phoneField = InputFields(
     labelText: "Celular",
     textInputType: TextInputType.phone,
     textController: phoneController,
     validator: (value) {},
+    format: "(##) # ####-####",
+  );
+
+  final _courseField = InputFields(
+    labelText: "Curso",
+    textInputType: TextInputType.text,
+    textController: courseController,
+    validator: (value) {},
+  );
+
+  final _cpfField = InputFields(
+    labelText: "CPF",
+    textInputType: TextInputType.phone,
+    textController: cpfController,
+    validator: (value) {},
+    format: "###.###.###-##",
   );
 
   final _nameField = InputFields(
@@ -47,11 +83,15 @@ class _RegisterFormState extends State<RegisterForm> {
     },
   );
 
-  void dispose() {
-    super.dispose();
-    emailController.dispose();
-    passwordController.dispose();
-  }
+  final _passwordConfirmField = InputFields(
+    labelText: "Confirmar a senha",
+    textInputType: TextInputType.text,
+    obscureText: true,
+    textController: passwordConfirmController,
+    validator: (value) {
+      return validatePassword(value);
+    },
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -71,13 +111,25 @@ class _RegisterFormState extends State<RegisterForm> {
             children: <Widget>[
               _nameField,
               Padding(padding: const EdgeInsets.only(bottom: 20.0)),
+              _emailFormField,
+              Padding(padding: const EdgeInsets.only(bottom: 20.0)),
+              _birthdayField,
+              Padding(padding: const EdgeInsets.only(bottom: 20.0)),
               _SexField(),
               Padding(padding: const EdgeInsets.only(top: 20.0)),
               _phoneField,
               Padding(padding: const EdgeInsets.only(top: 20.0)),
-              _emailFormField,
-              Padding(padding: const EdgeInsets.only(bottom: 20.0)),
+              _cpfField,
+              Padding(padding: const EdgeInsets.only(top: 20.0)),
+              _courseField,
+              Padding(padding: const EdgeInsets.only(top: 20.0)),
+              _profileLinkField,
+              Padding(padding: const EdgeInsets.only(top: 20.0)),
+              _ColarField(),
+              Padding(padding: const EdgeInsets.only(top: 20.0)),
               _passwordFormField,
+              Padding(padding: const EdgeInsets.only(top: 20.0)),
+              _passwordConfirmField,
               Padding(padding: const EdgeInsets.only(top: 20.0)),
               _RegisterButton(
                 formKey: _formKey,
@@ -158,6 +210,44 @@ class _SexFieldState extends State<_SexField> {
       decoration: const InputDecoration(
         isDense: true,
         labelText: "Sexo",
+      ),
+    );
+  }
+}
+
+class _ColarField extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return _ColarFieldState();
+  }
+}
+
+class _ColarFieldState extends State<_ColarField> {
+  static String _colar = "Tranparente";
+
+  void colarChange(value) {
+    setState(() {
+      _colar = value;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButtonFormField(
+      value: _colar,
+      items: <DropdownMenuItem>[
+        DropdownMenuItem(child: Text("Tranparente"), value: "Tranparente"),
+        DropdownMenuItem(child: Text("Branco"), value: "Branco"),
+        DropdownMenuItem(child: Text("Azul"), value: "Azul"),
+        DropdownMenuItem(child: Text("Azul Av"), value: "Azul Av"),
+        DropdownMenuItem(child: Text("Preto"), value: "Preto"),
+        DropdownMenuItem(child: Text("Preto Av"), value: "Preto Av"),
+        DropdownMenuItem(child: Text("Vermelho"), value: "Vermelho"),
+      ],
+      onChanged: colarChange,
+      decoration: const InputDecoration(
+        isDense: true,
+        labelText: "Colar",
       ),
     );
   }

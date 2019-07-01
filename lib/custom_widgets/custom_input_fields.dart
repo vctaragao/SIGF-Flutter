@@ -10,6 +10,7 @@ class InputFields extends StatelessWidget {
   final TextEditingController textController;
   final CustomValidator validator;
   final bool dense;
+  final String format;
   InputFields(
       {this.labelText,
       this.textInputType,
@@ -17,7 +18,8 @@ class InputFields extends StatelessWidget {
       this.textController,
       this.helperText,
       this.validator,
-      this.dense = true});
+      this.dense = true,
+      this.format = ""});
 
   @override
   Widget build(BuildContext context) {
@@ -32,23 +34,27 @@ class InputFields extends StatelessWidget {
       ),
       keyboardType: textInputType,
       obscureText: obscureText,
-      inputFormatters: <TextInputFormatter>[
-        _NumericTextFormatter(),
-      ],
+      inputFormatters: (format.length > 0)
+          ? <TextInputFormatter>[
+              _NumericTextFormatter(format: format),
+            ]
+          : null,
     );
   }
 }
 
 /* 
-  INPUT MASK FOR PHONE NUMBERS
-   Define the format you want the phone to be, and put a '#' where you want the numbers to be
+  INPUT MASK
+   Define the format you want the mask to be, and put a '#' where you want the numbers to be
 */
 
 class _NumericTextFormatter extends TextInputFormatter {
-  static final String format = "(##) # ####-####";
+  final String format;
 
-  // String where is stored the current phone/mask String
-  String newPhone;
+  _NumericTextFormatter({this.format});
+
+  // String where is stored the current mask String
+  String newText;
 
   // StringBuffer that is used to build the phone with the mask
   StringBuffer str;
@@ -84,12 +90,12 @@ class _NumericTextFormatter extends TextInputFormatter {
         str.write(format[i]);
       }
 
-      newPhone = str.toString();
+      newText = str.toString();
 
       return TextEditingValue(
-        text: newPhone,
+        text: newText,
         // This selection part, maskes sure that the cursor come back in the end of the String in the text field
-        selection: TextSelection.collapsed(offset: newPhone.length),
+        selection: TextSelection.collapsed(offset: newText.length),
       );
 
       /**
