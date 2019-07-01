@@ -35,6 +35,11 @@ class _LoginPageState extends State<LoginPage>
               height: _logoAnimation.value * 100,
             ),
             LoginForm(),
+            FlatButton(
+              textColor: Colors.blue,
+              child: Text("Criar uma conta"),
+              onPressed: () => Navigator.pushNamed(context, '/register'),
+            )
           ],
         )));
   }

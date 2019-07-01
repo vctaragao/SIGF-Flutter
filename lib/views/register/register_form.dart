@@ -1,18 +1,32 @@
 part of views;
 
-class LoginForm extends StatefulWidget {
+class RegisterForm extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return _LoginFormState();
+    return _RegisterFormState();
   }
 }
 
-class _LoginFormState extends State<LoginForm> {
+class _RegisterFormState extends State<RegisterForm> {
+  static final nameController = TextEditingController();
   static final emailController = TextEditingController();
-
   static final passwordController = TextEditingController();
+  static final phoneController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
+
+  final _phoneField = InputFields(
+    labelText: "Celular",
+    textInputType: TextInputType.phone,
+    textController: phoneController,
+    validator: (value) {},
+  );
+
+  final _nameField = InputFields(
+    labelText: "Nome",
+    textInputType: TextInputType.text,
+    textController: nameController,
+  );
 
   final _emailFormField = InputFields(
     labelText: "Email",
@@ -55,11 +69,17 @@ class _LoginFormState extends State<LoginForm> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
+              _nameField,
+              Padding(padding: const EdgeInsets.only(bottom: 20.0)),
+              _SexField(),
+              Padding(padding: const EdgeInsets.only(top: 20.0)),
+              _phoneField,
+              Padding(padding: const EdgeInsets.only(top: 20.0)),
               _emailFormField,
               Padding(padding: const EdgeInsets.only(bottom: 20.0)),
               _passwordFormField,
               Padding(padding: const EdgeInsets.only(top: 20.0)),
-              _LoginButton(
+              _RegisterButton(
                 formKey: _formKey,
               ),
             ],
@@ -70,10 +90,10 @@ class _LoginFormState extends State<LoginForm> {
   }
 }
 
-class _LoginButton extends StatelessWidget {
+class _RegisterButton extends StatelessWidget {
   GlobalKey<FormState> formKey;
 
-  _LoginButton({this.formKey});
+  _RegisterButton({this.formKey});
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +124,41 @@ class _LoginButton extends StatelessWidget {
       },
       color: Colors.teal,
       textColor: Colors.white,
-      child: Text("Login"),
+      child: Text("Criar conta"),
+    );
+  }
+}
+
+class _SexField extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return _SexFieldState();
+  }
+}
+
+class _SexFieldState extends State<_SexField> {
+  static String _sex = "Feminino";
+
+  void sexChange(value) {
+    setState(() {
+      _sex = value;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButtonFormField(
+      value: _sex,
+      items: <DropdownMenuItem>[
+        DropdownMenuItem(child: Text("Masculino"), value: "Masculino"),
+        DropdownMenuItem(child: Text("Feminino"), value: "Feminino"),
+        DropdownMenuItem(child: Text("Outro"), value: "Outro")
+      ],
+      onChanged: sexChange,
+      decoration: const InputDecoration(
+        isDense: true,
+        labelText: "Sexo",
+      ),
     );
   }
 }

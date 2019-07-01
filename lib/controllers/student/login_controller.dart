@@ -28,7 +28,7 @@ abstract class LoginController {
         );
 
         return tokenModel;
-      }).timeout(Duration(seconds: 15));
+      }).timeout(Duration(seconds: 60));
     } on TimeoutException {
       return LoginTokenModel(
           errorMessage:
